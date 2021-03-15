@@ -1,4 +1,10 @@
 steps:
- - name: maven:3-jdk-8
+ - id: Maven Build
+   name: maven:3-jdk-8
    entrypoint: mvn
    args: ['clean','package']
+ 
+ - id: Docker Build and Tag
+   name: gcr.io/cloud-builders/docker
+   args: ['build', '-t', 'gcr.io/calm-catfish-307320/spring-boot:$SHORT_SHA', '.']
+   
