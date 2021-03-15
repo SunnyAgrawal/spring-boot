@@ -6,5 +6,6 @@ steps:
  
  - id: Docker Build and Tag
    name: gcr.io/cloud-builders/docker
-   args: ['build', '-t', 'gcr.io/calm-catfish-307320/spring-boot:$SHORT_SHA', '.']
+   args: ['build', '-t', 'eu.gcr.io/calm-catfish-307320/spring-boot:$SHORT_SHA', '.']
+images: ['eu.gcr.io/calm-catfish-307320/spring-boot:$SHORT_SHA']
    
