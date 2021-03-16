@@ -9,11 +9,8 @@ steps:
  - id: Docker Push
    name: gcr.io/cloud-builders/docker
    args: ['push', 'eu.gcr.io/calm-catfish-307320/spring-boot:$SHORT_SHA']
- - id: Helm Install GCS Plugin
-   name: eu.gcr.io/calm-catfish-307320/justinrlee/helm3
-   args: ["plugin", "install", "https://github.com/SunnyAgrawal/helm-gcs.git"]
  - id: Helm Install Springboot Chart
-   name: eu.gcr.io/calm-catfish-307320/justinrlee/helm3
+   name: gcr.io/$PROJECT_ID/helm
    args: ["upgrade", "-i", "-f", "values.yaml", "spring-boot", "helm-charts-templates/java", "--set", "image.tag=$SHORT_SHA"]
    env:
      - TILLERLESS=true
@@ -21,3 +18,4 @@ steps:
      - CLOUDSDK_CONTAINER_CLUSTER=learn-gcp
      - HELM_REPO_URL=gs://helm-charts-templates
      - HELM_REPO_NAME=helm-charts-templates
+     - GCS_PLUGIN_VERSION=0.3.9
