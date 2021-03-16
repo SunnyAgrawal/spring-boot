@@ -14,7 +14,7 @@ steps:
    args: ["upgrade", "-i", "-f", "values.yaml", "spring-boot", "helm-charts-templates/helm-chart-sample", "--set", "image.tag=$SHORT_SHA"]
    env:
      - TILLERLESS=true
-     - CLOUDSDK_COMPUTE_ZONE=europe-west2-b
+     - CLOUDSDK_COMPUTE_ZONE=us-west2-b
      - CLOUDSDK_CONTAINER_CLUSTER=learn-gcp
      - HELM_REPO_URL=gs://helm-charts-templates
      - HELM_REPO_NAME=helm-charts-templates
