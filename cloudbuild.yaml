@@ -7,7 +7,10 @@ steps:
  - id: Docker Build and Tag
    name: gcr.io/cloud-builders/docker
    args: ['build', '-t', 'eu.gcr.io/calm-catfish-307320/spring-boot:$SHORT_SHA', '.']
-images: ['eu.gcr.io/calm-catfish-307320/spring-boot:$SHORT_SHA']
+   
+  - id: Docker Push
+   name: gcr.io/cloud-builders/docker
+   args: ['push', 'eu.gcr.io/calm-catfish-307320/spring-boot:$SHORT_SHA']
 
   - id: Helm Install GCS Plugin
     name: gcr.io/$PROJECT_ID/helm
