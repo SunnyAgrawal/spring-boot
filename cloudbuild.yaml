@@ -4,19 +4,15 @@ steps:
    name: maven:3-jdk-8
    entrypoint: mvn
    args: ['clean','package']
- 
  - id: Docker Build and Tag
    name: gcr.io/cloud-builders/docker
    args: ['build', '-t', 'eu.gcr.io/calm-catfish-307320/spring-boot:$SHORT_SHA', '.']
-   
   - id: Docker Push
    name: gcr.io/cloud-builders/docker
    args: ['push', 'eu.gcr.io/calm-catfish-307320/spring-boot:$SHORT_SHA']
-
   - id: Helm Install GCS Plugin
     name: gcr.io/$PROJECT_ID/helm
     args: ["plugin", "install", "https://github.com/hayorov/helm-gcs.git"]
-    
   - id: Helm Install Springboot Chart
     name: gcr.io/$PROJECT_ID/helm
     args: ["upgrade", "--install", "--values", "values.yaml", "spring-boot", "helm-charts-templates/java", "--set", "image.tag=$SHORT_SHA"]
@@ -26,4 +22,3 @@ steps:
       - CLOUDSDK_CONTAINER_CLUSTER=learn-gcp
       - HELM_REPO_URL=gs://helm-charts-templates
       - HELM_REPO_NAME=helm-charts-templates
-   
