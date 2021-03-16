@@ -14,7 +14,7 @@ steps:
    args: ["plugin", "install", "https://github.com/hayorov/helm-gcs.git"]
  - id: Helm Install Springboot Chart
    name: eu.gcr.io/calm-catfish-307320/justinrlee/helm3
-   args: ["upgrade", "--install", "--values", "values.yaml", "spring-boot", "helm-charts-templates/java", "--set", "image.tag=$SHORT_SHA"]
+   args: ["upgrade", "-i", "-f", "values.yaml", "spring-boot", "helm-charts-templates/java", "--set", "image.tag=$SHORT_SHA"]
    env:
      - TILLERLESS=true
      - CLOUDSDK_COMPUTE_ZONE=europe-west2-b
