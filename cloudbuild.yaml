@@ -10,7 +10,7 @@ steps:
    name: gcr.io/cloud-builders/docker
    args: ['push', 'eu.gcr.io/calm-catfish-307320/spring-boot:$SHORT_SHA']
  - id: Helm Install GCS Plugin
-   name: gcr.io/$PROJECT_ID/helm
+   name: eu.gcr.io/calm-catfish-307320/justinrlee/helm3
    args: ["plugin", "install", "https://github.com/hayorov/helm-gcs.git"]
  - id: Helm Install Springboot Chart
    name: gcr.io/$PROJECT_ID/helm
