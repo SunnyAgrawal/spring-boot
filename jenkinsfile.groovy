@@ -18,7 +18,7 @@ pipeline {
         stage('Build and Publish') {
             steps {
                 script{
-                    docker.withRegistry('192.168.0.22:8082', 'nexuscreds') {
+                    docker.withRegistry('http://192.168.0.22:8082', 'nexuscreds') {
                         def customImage = docker.build("spring-boot:${env.BUILD_NUMBER}")
                         /* Push the container to the custom Registry */
                         customImage.push()
@@ -27,8 +27,11 @@ pipeline {
                 }
             }
         }
-        stage('Run Automation suite') {
+        stage('Deploy application') {
             steps {
+                script{
+                    sh 'docker '
+                }
                 echo "4"
             }
         }
