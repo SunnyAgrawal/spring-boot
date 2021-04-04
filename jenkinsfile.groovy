@@ -5,26 +5,30 @@ pipeline {
     }
     environment {
         SONARQUBE = credentials('sonar')
+        NEXUS_CRED = credentials('nexuscreds')
+        SONAR_URL = "http://192.168.0.22:9000"
+        DOCKER_REGISTRY = "192.168.0.22:8082"
     }
     stages {
         stage('Build') {
             steps {
-                sh 'mvn clean package sonar:sonar -s settings.xml -Dmaven.repo.local=$WORKSPACE/.m2 -Dsonar.host.url=http://192.168.0.22:9000 -Dsonar.login=$SONARQUBE_USR -Dsonar.password=$SONARQUBE_PSW'
+                sh 'mvn clean package sonar:sonar -s settings.xml -Dmaven.repo.local=$WORKSPACE/.m2 -Dsonar.host.url=$SONAR_URL -Dsonar.login=$SONARQUBE_USR -Dsonar.password=$SONARQUBE_PSW'
             }
         }
         stage('Build Docker Image') {
             steps {
-                echo "1"
+                sh 'docker build -t $DOCKER_REGISTRY/spring-boot:$BUILD_NUMBER'
             }
         }
         stage('Publish Docker Image') {
             steps {
-                echo "2"
+                sh 'docker login -u $NEXUS_CRED_USR -p $NEXUS_CRED_PSW $DOCKER_REGISTRY'
+                sh 'docker push $NEXUS_URL:8082/spring-boot:$BUILD_NUMBER'
             }
         }
         stage('Deploy Docker image') {
             steps {
-                echo "3"
+                sh 'docker run -d -p 8083:8083 $DOCKER_REGISTRY/spring-boot:$BUILD_NUMBER'
             }
         }
         stage('Run Automation suite') {
