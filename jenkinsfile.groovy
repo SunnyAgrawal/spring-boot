@@ -17,18 +17,24 @@ pipeline {
         }
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $DOCKER_REGISTRY/spring-boot:$BUILD_NUMBER'
+                script {
+                    sh 'docker build -t $DOCKER_REGISTRY/spring-boot:$BUILD_NUMBER'
+                }
             }
         }
         stage('Publish Docker Image') {
             steps {
-                sh 'docker login -u $NEXUS_CRED_USR -p $NEXUS_CRED_PSW $DOCKER_REGISTRY'
-                sh 'docker push $DOCKER_REGISTRY/spring-boot:$BUILD_NUMBER'
+                script {
+                    sh 'docker login -u $NEXUS_CRED_USR -p $NEXUS_CRED_PSW $DOCKER_REGISTRY'
+                    sh 'docker push $DOCKER_REGISTRY/spring-boot:$BUILD_NUMBER'
+                }
             }
         }
         stage('Deploy Docker image') {
             steps {
-                sh 'docker run -d -p 8083:8083 $DOCKER_REGISTRY/spring-boot:$BUILD_NUMBER'
+                script {
+                    sh 'docker run -d -p 8083:8083 $DOCKER_REGISTRY/spring-boot:$BUILD_NUMBER'
+                }
             }
         }
         stage('Run Automation suite') {
