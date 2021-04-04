@@ -21,7 +21,8 @@ pipeline {
                     def customImage = docker.build("spring-boot:${env.BUILD_NUMBER}")
                     /* Push the container to the custom Registry */
                     customImage.push()
-                // sh 'docker build -t $DOCKER_REGISTRY/spring-boot:$BUILD_NUMBER'
+                    // sh 'docker build -t $DOCKER_REGISTRY/spring-boot:$BUILD_NUMBER'
+                }
             }
         }
         stage('Run Automation suite') {
