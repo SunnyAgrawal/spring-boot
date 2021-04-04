@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'clean package sonar:sonar -s settings.xml -Dmaven.repo.local=$WORKSPACE/.m2'
+                sh 'mvn clean package sonar:sonar -s settings.xml -Dmaven.repo.local=$WORKSPACE/.m2'
             }
         }
         stage('Build Docker Image') {
