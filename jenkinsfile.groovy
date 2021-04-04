@@ -18,7 +18,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh '/usr/local/bin/docker build -t $DOCKER_REGISTRY/spring-boot:$BUILD_NUMBER'
+                    sh '/usr/local/bin/docker build -t $DOCKER_REGISTRY/spring-boot:$BUILD_NUMBER .'
                 }
             }
         }
