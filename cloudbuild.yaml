@@ -15,7 +15,7 @@ steps:
    env:
      - TILLERLESS=true
      - CLOUDSDK_COMPUTE_ZONE=us-west2-b
-     - CLOUDSDK_CONTAINER_CLUSTER=learn-gcp
+     - CLOUDSDK_CONTAINER_CLUSTER=calm-catfish-307320
      - HELM_REPO_URL=gs://helm-charts-templates
      - HELM_REPO_NAME=helm-charts-templates
      - GCS_PLUGIN_VERSION=0.3.9
