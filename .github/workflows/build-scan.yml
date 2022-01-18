@@ -27,6 +27,7 @@ jobs:
   scanfiles:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
     - name: Run Trivy vulnerability scanner in repo mode
       uses: aquasecurity/trivy-action@master
       with:
@@ -45,6 +46,7 @@ jobs:
   scanconfig:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v2
     - name: Run Trivy vulnerability scanner in IaC mode
       uses: aquasecurity/trivy-action@master
       with:
