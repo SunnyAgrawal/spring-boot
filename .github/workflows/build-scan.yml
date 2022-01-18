@@ -46,6 +46,7 @@ jobs:
       with:
         scan-type: 'config'
         ignore-unfixed: true
+        hide-progress: false
         format: 'template'
         template: '@/contrib/sarif.tpl'
         output: 'trivy-config.sarif'
