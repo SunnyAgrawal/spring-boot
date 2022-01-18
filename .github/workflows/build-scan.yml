@@ -24,43 +24,59 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-#   scanfiles:
-#     runs-on: ubuntu-latest
-#     steps:
-#     - uses: actions/checkout@v2
-#     - name: Run Trivy vulnerability scanner in repo mode
-#       uses: aquasecurity/trivy-action@master
-#       with:
-#         scan-type: 'fs'
-#         ignore-unfixed: true
-#         format: 'template'
-#         template: '@/contrib/sarif.tpl'
-#         output: 'trivy-fs.sarif'
-#         severity: 'MEDIUM,HIGH,CRITICAL'
-
-#     - name: Upload Trivy scan for packages
-#       uses: github/codeql-action/upload-sarif@v1
-#       with:
-#         sarif_file: 'trivy-fs.sarif'
-
-  scanconfig:
+  scanfiles:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - uses: actions/checkout@v2
+    - name: Run Trivy vulnerability scanner in repo mode
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        ignore-unfixed: true
+        format: 'template'
+        template: '@/contrib/sarif.tpl'
+        output: 'trivy-fs.sarif'
+        severity: 'MEDIUM,HIGH,CRITICAL'
 
-      - name: Run Trivy vulnerability scanner in IaC mode
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: 'config'
-          hide-progress: false
-          format: 'template'
-          template: '@/contrib/sarif.tpl'
-          output: 'trivy-config.sarif'
-          ignore-unfixed: true
-          severity: 'CRITICAL,HIGH'
+    - name: Upload Trivy scan for packages
+      uses: github/codeql-action/upload-sarif@v1
+      with:
+        sarif_file: 'trivy-fs.sarif'
+  
+  scanimage:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Run Trivy vulnerability scanner in repo mode
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: 'grafana/grafana:latest'
+        format: 'template'
+        template: '@/contrib/sarif.tpl'
+        output: 'trivy-results.sarif'
 
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v1
-        with:
-          sarif_file: 'trivy-config.sarif'
+    - name: Upload Trivy scan for packages
+      uses: github/codeql-action/upload-sarif@v1
+      with:
+        sarif_file: 'trivy-results.sarif'
+
+#   scanconfig:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+
+#       - name: Run Trivy vulnerability scanner in IaC mode
+#         uses: aquasecurity/trivy-action@master
+#         with:
+#           scan-type: 'config'
+#           hide-progress: false
+#           format: 'template'
+#           template: '@/contrib/sarif.tpl'
+#           output: 'trivy-config.sarif'
+#           ignore-unfixed: true
+#           severity: 'CRITICAL,HIGH'
+
+#       - name: Upload Trivy scan results to GitHub Security tab
+#         uses: github/codeql-action/upload-sarif@v1
+#         with:
+#           sarif_file: 'trivy-config.sarif'
