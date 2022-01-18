@@ -24,24 +24,24 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
 
-  scanfiles:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Run Trivy vulnerability scanner in repo mode
-      uses: aquasecurity/trivy-action@master
-      with:
-        scan-type: 'fs'
-        ignore-unfixed: true
-        format: 'template'
-        template: '@/contrib/sarif.tpl'
-        output: 'trivy-fs.sarif'
-        severity: 'MEDIUM,HIGH,CRITICAL'
+#   scanfiles:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - uses: actions/checkout@v2
+#     - name: Run Trivy vulnerability scanner in repo mode
+#       uses: aquasecurity/trivy-action@master
+#       with:
+#         scan-type: 'fs'
+#         ignore-unfixed: true
+#         format: 'template'
+#         template: '@/contrib/sarif.tpl'
+#         output: 'trivy-fs.sarif'
+#         severity: 'MEDIUM,HIGH,CRITICAL'
 
-    - name: Upload Trivy scan for packages
-      uses: github/codeql-action/upload-sarif@v1
-      with:
-        sarif_file: 'trivy-fs.sarif'
+#     - name: Upload Trivy scan for packages
+#       uses: github/codeql-action/upload-sarif@v1
+#       with:
+#         sarif_file: 'trivy-fs.sarif'
 
   scanconfig:
     runs-on: ubuntu-latest
