@@ -51,11 +51,13 @@ jobs:
       uses: aquasecurity/trivy-action@master
       with:
         scan-type: 'config'
-        ignore-unfixed: true
+        hide-progress: false
         format: 'template'
         template: '@/contrib/sarif.tpl'
         output: 'trivy-config.sarif'
-        severity: 'MEDIUM,HIGH,CRITICAL'
+        exit-code: '1'
+        ignore-unfixed: true
+        severity: 'CRITICAL,HIGH'
 
     - name: Upload Trivy scan for Config
       uses: github/codeql-action/upload-sarif@v1
