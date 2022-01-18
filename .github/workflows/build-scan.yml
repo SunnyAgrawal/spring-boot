@@ -46,20 +46,20 @@ jobs:
   scanconfig:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Run Trivy vulnerability scanner in IaC mode
-      uses: aquasecurity/trivy-action@master
-      with:
-        scan-type: 'config'
-        hide-progress: false
-        format: 'template'
-        template: '@/contrib/sarif.tpl'
-        output: 'trivy-config.sarif'
-        exit-code: '0'
-        ignore-unfixed: true
-        severity: 'CRITICAL,HIGH'
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Upload Trivy scan for Config
-      uses: github/codeql-action/upload-sarif@v1
-      with:
-        sarif_file: 'trivy-config.sarif'
+      - name: Run Trivy vulnerability scanner in IaC mode
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'config'
+          hide-progress: false
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          severity: 'CRITICAL,HIGH'
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: 'trivy-config.sarif'
